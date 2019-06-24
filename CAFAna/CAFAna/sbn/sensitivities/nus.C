@@ -88,7 +88,7 @@ void nus(const char* stateFname = basicFname, int nmock = 0, bool useSysts = tru
   // In a full Feldman-Cousins analysis you need to provide a critical value
   // surface to be able to draw a contour. But we provide these helper
   // functions to use the gaussian up-values.
-  TH2* crit2sig = Gaussian3Sigma1D1Sided(surf);
+  TH2* crit2sig = Gaussian90Percent2D(surf);
 
   surf.DrawContour(crit2sig, kSolid, kBlue);
 
@@ -111,7 +111,7 @@ void nus(const char* stateFname = basicFname, int nmock = 0, bool useSysts = tru
 
   c1->Clear(); // just in case
 
-  TH2* crit2sig2 = Gaussian3Sigma1D1Sided(surf2);
+  TH2* crit2sig2 = Gaussian90Percent2D(surf2);
 
   surf2.DrawContour(crit2sig2, kSolid, kGreen+2);
 
@@ -151,7 +151,7 @@ void nus(const char* stateFname = basicFname, int nmock = 0, bool useSysts = tru
 
   c1->Clear(); // just in case
 
-  TH2* crit2sigMulti = Gaussian3Sigma1D1Sided(surfMulti);
+  TH2* crit2sigMulti = Gaussian90Percent2D(surfMulti);
 
   surfMulti.DrawContour(crit2sigMulti, kSolid, kRed);
     
@@ -161,7 +161,7 @@ void nus(const char* stateFname = basicFname, int nmock = 0, bool useSysts = tru
 
   if(!mockSurfs.empty()){
     MedianSurface ms(mockSurfs);
-    TH2* crit2 = Gaussian3Sigma1D1Sided(ms);
+    TH2* crit2 = Gaussian90Percent2D(ms);
     ms.DrawEnsemble(crit2);
     ms.DrawContour(crit2, kSolid, kRed);
 
