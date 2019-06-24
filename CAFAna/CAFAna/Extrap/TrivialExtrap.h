@@ -1,10 +1,27 @@
 #pragma once
 
 #include "CAFAna/Extrap/IExtrap.h"
+#include "CAFAna/Core/Cut.h"
+#include "StandardRecord/Proxy/SRProxy.h"
 
 namespace ana
 {
   class Loaders;
+
+  const Cut kParentMuon([](const caf::SRProxy* sr)
+		     {
+		       return (sr->reco[0].truth.neutrino.parentPDG == -13);
+		     });
+
+  const Cut kParentKZero([](const caf::SRProxy* sr)
+		     {
+		       return (sr->reco[0].truth.neutrino.parentPDG == 130);
+		     });
+
+  const Cut kParentKPlus([](const caf::SRProxy* sr)
+		     {
+		       return (sr->reco[0].truth.neutrino.parentPDG == 321);
+		     });
 
   /// "Extrapolation" that simply returns the FD MC prediction
   class TrivialExtrap: public IExtrap
@@ -48,6 +65,10 @@ namespace ana
     virtual OscillatableSpectrum NueSurvComponent()       {return fNueSurv;}
     virtual OscillatableSpectrum AntiNueSurvComponent()   {return fNueSurvAnti;}
 
+    virtual OscillatableSpectrum NueSurvFromMuComponent()       {return fNueSurvFromMu;}
+    virtual OscillatableSpectrum NueSurvFromKZComponent()       {return fNueSurvFromKZ;}
+    virtual OscillatableSpectrum NueSurvFromKPComponent()       {return fNueSurvFromKP;}
+
     virtual OscillatableSpectrum NumuSurvComponent()      {return fNumuSurv;}
     virtual OscillatableSpectrum AntiNumuSurvComponent()  {return fNumuSurvAnti;}
 
@@ -77,7 +98,8 @@ namespace ana
         fNueSurv(0, {}, {}, 0, 0),   fNueSurvAnti(0, {}, {}, 0, 0),
         fTauFromE(0, {}, {}, 0, 0),  fTauFromEAnti(0, {}, {}, 0, 0),
         fTauFromMu(0, {}, {}, 0, 0), fTauFromMuAnti(0, {}, {}, 0, 0),
-        fNCFromNumu(0, {}, {}, 0, 0), fNCFromNue(0, {}, {}, 0, 0)
+        fNCFromNumu(0, {}, {}, 0, 0), fNCFromNue(0, {}, {}, 0, 0),
+        fNueSurvFromMu(0, {}, {}, 0, 0), fNueSurvFromKZ(0, {}, {}, 0, 0), fNueSurvFromKP(0, {}, {}, 0, 0)
     {}
 
     OscillatableSpectrum fNueApp,    fNueAppAnti;
@@ -87,5 +109,6 @@ namespace ana
     OscillatableSpectrum fTauFromE,  fTauFromEAnti;
     OscillatableSpectrum fTauFromMu, fTauFromMuAnti;
     OscillatableSpectrum fNCFromNumu, fNCFromNue;
+    OscillatableSpectrum fNueSurvFromMu, fNueSurvFromKZ, fNueSurvFromKP;
   };
 }

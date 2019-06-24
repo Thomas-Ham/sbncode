@@ -31,6 +31,10 @@ namespace ana
     fNueSurv      (loaderIntrinsic, axis, cut && kIsBeamNue   && !kIsAntiNu, shift, wei),
     fNueSurvAnti  (loaderIntrinsic, axis, cut && kIsBeamNue   &&  kIsAntiNu, shift, wei),
 
+    fNueSurvFromMu(loaderIntrinsic, axis, cut && kParentMuon  && kIsBeamNue, shift, wei),
+    fNueSurvFromKZ(loaderIntrinsic, axis, cut && kParentKZero && kIsBeamNue, shift, wei),
+    fNueSurvFromKP(loaderIntrinsic, axis, cut && kParentKPlus && kIsBeamNue, shift, wei),
+
     fTauFromE     (loaderNue,     axis, cut && kIsTauFromE  && !kIsAntiNu, shift, wei),
     fTauFromEAnti (loaderNue,     axis, cut && kIsTauFromE  &&  kIsAntiNu, shift, wei),
 
@@ -52,6 +56,9 @@ namespace ana
 
     //Also load in intrinsic nues from nonswap file
     loaderNonswap.AddReweightableSpectrum(fNueSurv, axis.GetMultiDVar(), cut && kIsBeamNue && !kIsAntiNu, shift, wei);
+    loaderNonswap.AddReweightableSpectrum(fNueSurvFromMu, axis.GetMultiDVar(), cut && kParentMuon && kIsBeamNue, shift, wei);
+    loaderNonswap.AddReweightableSpectrum(fNueSurvFromKZ, axis.GetMultiDVar(), cut && kParentKZero && kIsBeamNue, shift, wei);
+    loaderNonswap.AddReweightableSpectrum(fNueSurvFromKP, axis.GetMultiDVar(), cut && kParentKPlus && kIsBeamNue, shift, wei);
     loaderNonswap.AddReweightableSpectrum(fNueSurvAnti, axis.GetMultiDVar(), cut && kIsBeamNue && kIsAntiNu, shift, wei);
 
   }
@@ -124,6 +131,9 @@ namespace ana
     fTauFromEAnti.SaveTo(dir->mkdir("nutau_from_nue_anti"));
     fTauFromMu.SaveTo(dir->mkdir("nutau_from_numu"));
     fTauFromMuAnti.SaveTo(dir->mkdir("nutau_from_numu_anti"));
+    fNueSurvFromMu.SaveTo(dir->mkdir("nue_surv_from_mu"));
+    fNueSurvFromKZ.SaveTo(dir->mkdir("nue_surv_from_kz"));
+    fNueSurvFromKP.SaveTo(dir->mkdir("nue_surv_from_kp"));
 
     tmp->cd();
   }
@@ -151,6 +161,9 @@ namespace ana
     LOAD_OSC(fTauFromMuAnti, "nutau_from_numu_anti");
     LOAD_OSC(fNCFromNumu,    "nc_from_numu");
     LOAD_OSC(fNCFromNue,     "nc_from_nue");
+    LOAD_OSC(fNueSurvFromMu, "nue_surv_from_mu");
+    LOAD_OSC(fNueSurvFromKZ, "nue_surv_from_kz");
+    LOAD_OSC(fNueSurvFromKP, "nue_surv_from_kp");
 
     return ret;
   }
