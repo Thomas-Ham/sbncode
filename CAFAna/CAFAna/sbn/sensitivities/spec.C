@@ -7,7 +7,8 @@
 #include "CAFAna/Core/Var.h"
 
 // #include "CAFAna/Cuts/TruthCuts.h"
-
+#include "CAFAna/Prediction/PredictionExtrap.h"
+#include "CAFAna/Extrap/IExtrap.h"
 #include "StandardRecord/StandardRecord.h"
 #include "CAFAna/Prediction/PredictionNoExtrap.h"
 #include "CAFAna/Analysis/Calcs.h"
@@ -22,6 +23,7 @@
 #include "TH1.h"
 #include "TFile.h"
 #include "TLatex.h"
+#include "TObjString.h"
 
 #include "toysysts.h"
 
@@ -50,8 +52,8 @@ void spec()
   TFile fin2(stateFname2);
   PredictionInterp& pred_nd_numu = *ana::LoadFrom<PredictionInterp>(fin.GetDirectory("pred_nd_numu")).release();
   PredictionInterp& pred_fd_numu = *ana::LoadFrom<PredictionInterp>(fin.GetDirectory("pred_fd_numu")).release();
-  PredictionInterp& pred_nd_nue = *ana::LoadFrom<PredictionInterp>(fin2.GetDirectory("pred_nd_nue")).release();
-  PredictionInterp& pred_fd_nue = *ana::LoadFrom<PredictionInterp>(fin2.GetDirectory("pred_fd_nue")).release();
+  PredictionInterp& pred_nd_nue  = *ana::LoadFrom<PredictionInterp>(fin2.GetDirectory("pred_nd_nue")).release();
+  PredictionInterp& pred_fd_nue  = *ana::LoadFrom<PredictionInterp>(fin2.GetDirectory("pred_fd_nue")).release();
   
   std::cout << "read in done" << std::endl;
 
@@ -76,7 +78,7 @@ void spec()
   osc_nd_nue1->SetL(kBaselineSBND);
   osc_nd_nue1->calc.SetSinSq2ThetaMuE(0.013);
   osc_nd_nue1->calc.SetDmsq(0.43);
-
+  
   //Numu
   TH1* hnumu_nd_signal_unosc = pred_nd_numu.PredictComponent(noosc_nd, Flavors::kAllNuMu, Current::kCC, Sign::kBoth).ToTH1(pot);
   TH1* hnumu_nd_signal_osc1 = pred_nd_numu.PredictComponent(osc_nd_opt1, Flavors::kAllNuMu, Current::kCC, Sign::kBoth).ToTH1(pot);
@@ -91,6 +93,11 @@ void spec()
   TH1* hnue_nd_ncbg_unosc = pred_nd_nue.PredictComponent(noosc_nd, Flavors::kAll, Current::kNC, Sign::kBoth).ToTH1(pot);
   TH1* hnue_nd_numubg_unosc = pred_nd_nue.PredictComponent(noosc_nd, Flavors::kAllNuMu, Current::kCC, Sign::kBoth).ToTH1(pot);
   TH1* hnue_nd_nuebg_unosc = pred_nd_nue.PredictComponent(noosc_nd, Flavors::kNuEToNuE, Current::kCC, Sign::kBoth).ToTH1(pot);
+
+  auto fExtrap = dynamic_cast<PredictionExtrap*>(pred_nd_nue.fPredNom.release())->GetExtrap(); 
+  TH1* hnue_nd_nuebg_fromMu_unosc = fExtrap->NueSurvFromMuComponent().Oscillated(noosc_nd, +12, +12).ToTH1(pot);
+  TH1* hnue_nd_nuebg_fromKZ_unosc = fExtrap->NueSurvFromKZComponent().Oscillated(noosc_nd, +12, +12).ToTH1(pot);
+  TH1* hnue_nd_nuebg_fromKP_unosc = fExtrap->NueSurvFromKPComponent().Oscillated(noosc_nd, +12, +12).ToTH1(pot);
 
 
   //ICARUS
@@ -127,6 +134,13 @@ void spec()
   TH1* hnue_fd_ncbg_unosc = pred_fd_nue.PredictComponent(noosc_fd, Flavors::kAll, Current::kNC, Sign::kBoth).ToTH1(pot);
   TH1* hnue_fd_numubg_unosc = pred_fd_nue.PredictComponent(noosc_fd, Flavors::kAllNuMu, Current::kCC, Sign::kBoth).ToTH1(pot);
   TH1* hnue_fd_nuebg_unosc = pred_fd_nue.PredictComponent(noosc_fd, Flavors::kNuEToNuE, Current::kCC, Sign::kBoth).ToTH1(pot);
+  
+  auto fExtrap2 = dynamic_cast<PredictionExtrap*>(pred_fd_nue.fPredNom.release())->GetExtrap(); 
+  TH1* hnue_fd_nuebg_fromMu_unosc = fExtrap2->NueSurvFromMuComponent().Oscillated(noosc_fd, +12, +12).ToTH1(pot);
+  TH1* hnue_fd_nuebg_fromKZ_unosc = fExtrap2->NueSurvFromKZComponent().Oscillated(noosc_fd, +12, +12).ToTH1(pot);
+  TH1* hnue_fd_nuebg_fromKP_unosc = fExtrap2->NueSurvFromKPComponent().Oscillated(noosc_fd, +12, +12).ToTH1(pot);
+  
+  std::cout << "Writing File" << std::endl;
 
   TFile* fOutput = new TFile("output_spec.root","RECREATE");
 
@@ -149,12 +163,18 @@ void spec()
   hnue_nd_ncbg_unosc->Write("hnue_nd_ncbg_unosc");
   hnue_nd_numubg_unosc->Write("hnue_nd_numubg_unosc");
   hnue_nd_nuebg_unosc->Write("hnue_nd_nuebg_unosc");
+  hnue_nd_nuebg_fromMu_unosc->Write("hnue_nd_nuebg_fromMu_unosc");
+  hnue_nd_nuebg_fromKZ_unosc->Write("hnue_nd_nuebg_fromKZ_unosc");
+  hnue_nd_nuebg_fromKP_unosc->Write("hnue_nd_nuebg_fromKP_unosc");
 
   hnue_fd_signal_unosc->Write("hnue_fd_signal_unosc");
   hnue_fd_signal_osc1->Write("hnue_fd_signal_osc1");
   hnue_fd_ncbg_unosc->Write("hnue_fd_ncbg_unosc");
   hnue_fd_numubg_unosc->Write("hnue_fd_numubg_unosc");
   hnue_fd_nuebg_unosc->Write("hnue_fd_nuebg_unosc");
+  hnue_fd_nuebg_fromMu_unosc->Write("hnue_fd_nuebg_fromMu_unosc");
+  hnue_fd_nuebg_fromKZ_unosc->Write("hnue_fd_nuebg_fromKZ_unosc");
+  hnue_fd_nuebg_fromKP_unosc->Write("hnue_fd_nuebg_fromKP_unosc");
 
   fOutput->Close();
 
