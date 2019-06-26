@@ -10,17 +10,17 @@ namespace ana
 
   const Cut kParentMuon([](const caf::SRProxy* sr)
 		     {
-		       return (sr->reco[0].truth.neutrino.parentPDG == -13);
+		       return (sr->truth[0].neutrino.parentPDG == -13);
 		     });
 
   const Cut kParentKZero([](const caf::SRProxy* sr)
 		     {
-		       return (sr->reco[0].truth.neutrino.parentPDG == 130);
+		       return (sr->truth[0].neutrino.parentPDG == 130);
 		     });
 
   const Cut kParentKPlus([](const caf::SRProxy* sr)
 		     {
-		       return (sr->reco[0].truth.neutrino.parentPDG == 321);
+		       return (sr->truth[0].neutrino.parentPDG == 321);
 		     });
 
   /// "Extrapolation" that simply returns the FD MC prediction

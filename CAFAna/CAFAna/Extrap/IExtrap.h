@@ -15,6 +15,11 @@ namespace ana
     /// Charged current electron antineutrino survival (\f$\bar\nu_e\to\bar\nu_e\f$)
     virtual OscillatableSpectrum AntiNueSurvComponent() = 0;
 
+    // Electron neutrino survival by parent
+    virtual OscillatableSpectrum NueSurvFromMuComponent() = 0;
+    virtual OscillatableSpectrum NueSurvFromKZComponent() = 0;
+    virtual OscillatableSpectrum NueSurvFromKPComponent() = 0;
+
     /// Charged current muon neutrino survival (\f$\nu_\mu\to\nu_\mu\f$)
     virtual OscillatableSpectrum NumuSurvComponent() = 0;
     /// Charged current muon antineutrino survival (\f$\bar\nu_\mu\to\bar\nu_\mu\f$)

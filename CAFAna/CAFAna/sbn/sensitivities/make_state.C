@@ -30,9 +30,10 @@ void make_state(const std::string anatype = numuStr)
   Loaders loaders, loaders2;
   if (anatype == numuStr) {
     //const std::string fDir = "/pnfs/sbnd/persistent/users/gputnam/numu_simulation_reweight/processed_2.a/";
-    const std::string fDir = "/pnfs/sbnd/persistent/users/gputnam/numu_simulation_12_05_2018/processed_1.tempwgh/";
-    const std::string fnameBeam = fDir + "output_SBNOsc_NumuSelection_Modern_SBND.root";
-    const std::string fnameBeam2 = fDir + "output_SBNOsc_NumuSelection_Modern_Icarus.root";
+    //const std::string fDir = "/pnfs/sbnd/persistent/users/gputnam/numu_simulation_12_05_2018/processed_1.tempwgh/";
+    const std::string fDir = "/sbnd/data/users/gputnam/NuMu/outputs/sample_2.1_fitters/";
+    const std::string fnameBeam = fDir + "output_SBNOsc_NumuSelection_Proposal_SBND.root";
+    const std::string fnameBeam2 = fDir + "output_SBNOsc_NumuSelection_Proposal_Icarus.root";
 
     loaders.SetLoaderPath( fnameBeam, Loaders::kMC,   ana::kBeam, Loaders::kNonSwap);
     loaders2.SetLoaderPath( fnameBeam2, Loaders::kMC,   ana::kBeam, Loaders::kNonSwap);
@@ -55,10 +56,10 @@ void make_state(const std::string anatype = numuStr)
     const std::string fnameSwap = fDir + "output_SBNOsc_NueSelection_Proposal_SBND_Osc.root";
     const std::string fnameSwap2 = fDir + "output_SBNOsc_NueSelection_Proposal_Icarus_Osc.root";
 
-    loaders.SetLoaderPath( fnameBNB,  Loaders::kMC,   ana::kBeam, Loaders::kNonSwap);
+    //loaders.SetLoaderPath( fnameBNB,  Loaders::kMC,   ana::kBeam, Loaders::kNonSwap);
     loaders.SetLoaderPath( fnameIntrinsic,  Loaders::kMC,   ana::kBeam, Loaders::kIntrinsic);
     loaders.SetLoaderPath( fnameSwap,  Loaders::kMC,   ana::kBeam, Loaders::kNueSwap);
-    loaders2.SetLoaderPath( fnameBNB2, Loaders::kMC,   ana::kBeam, Loaders::kNonSwap);
+    //loaders2.SetLoaderPath( fnameBNB2, Loaders::kMC,   ana::kBeam, Loaders::kNonSwap);
     loaders2.SetLoaderPath( fnameIntrinsic2,  Loaders::kMC,   ana::kBeam, Loaders::kIntrinsic);
     loaders2.SetLoaderPath( fnameSwap2,  Loaders::kMC,   ana::kBeam, Loaders::kNueSwap);
 
@@ -114,10 +115,7 @@ void make_state(const std::string anatype = numuStr)
   std::cout << "\n" << std::endl;
   std::vector<const ISyst*> noSysts{};
 
-  //Use true energy, no weights until we get new nue files
-  NoExtrapGenerator gen(anatype == numuStr ? axEnergy : axEnergy,
-                        kOneTrue,
-			anatype == numuStr ? kWeight : kWeight);
+  NoExtrapGenerator gen(axEnergy, kNoCut, kWeight);
 
   PredictionInterp pred_nd(anatype == numuStr ? allSysts : noSysts, calc, gen, loaders);
   PredictionInterp pred_fd(anatype == numuStr ? allSysts : noSysts, calc, gen, loaders2);

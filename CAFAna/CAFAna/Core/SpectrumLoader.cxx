@@ -121,13 +121,14 @@ namespace ana
   {
     assert(!f->IsZombie());
 
-    // Test for flat (has extra trees) or nested cases.
-    TDirectory* dir = f->Get("sbnana.reco") ? f : 0;
-    TTree* tr = (TTree*)f->Get("sbnana");
+    // Test for flat (has extra trees) or nominal SBNCode output
+    TTree* tr = (TTree*)f->Get("sbnreco"); 
+    if (!tr) tr = (TTree*)f->Get("sbnana");
     assert(tr);
+    std::cout << tr << std::endl;
 
     long n;
-    caf::SRProxy sr(dir, tr, dir ? "sbnana" : "events", n, 0);
+    caf::SRProxy sr(0, tr, "", n, 0);
 
     //    FloatingExceptionOnNaN fpnan;
 
@@ -135,7 +136,7 @@ namespace ana
     if (max_entries != 0 && max_entries < Nentries) Nentries = max_entries;
 
     for(n = 0; n < Nentries; ++n){
-      if(!dir) tr->LoadTree(n); // nested mode
+      tr->LoadTree(n);
 
       HandleRecord(&sr);
 
@@ -286,8 +287,14 @@ namespace ana
       for(auto& cutdef: shiftdef.second){
         for(auto& weidef: cutdef.second){
           for(auto& vardef: weidef.second){
+
             for(Spectrum* s: vardef.second.spects) s->fPOT += fPOT;
             for(ReweightableSpectrum* rw: vardef.second.rwSpects) rw->fPOT += fPOT;
+
+            for(ReweightableSpectrum* rw: vardef.second.rwSpects) {
+	      std::cout << "POT: " << rw->fPOT << std::endl;
+	    }
+
           }
         }
       }
