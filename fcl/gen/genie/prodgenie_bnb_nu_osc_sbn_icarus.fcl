@@ -2,7 +2,7 @@
 
 process_name: GenieGen
 
-outputs.rootoutput.fileName: "prodgenie_bnb_intrinsic_nue_sbn_icarus_%tc_gen.root"
+outputs.rootoutput.fileName: "prodgenie_bnb_nu_sbn_osc_icarus_%tc_gen.root"
 
 services.NuRandomService.policy: random
 services.IFDH: {}
@@ -14,6 +14,4 @@ physics.producers.generator.BeamName: "booster"
 physics.producers.generator.FluxSearchPaths: "/pnfs/sbn/persistent/users/mastbaum/flux/icarus/zarko-expires20171031/"
 physics.producers.generator.FluxFiles: [ "converted_beammc_icarus_*.root" ]
 physics.producers.generator.EventGeneratorList: @erase
-
-physics.producers.generator.GenFlavors: [12,-12]
-
+physics.producers.generator.MixerConfig:     "map 14:12 -14:-12 12:14 -12:-14"  #swap all muon neutrinos for electron neutrinos and vice-versa      
