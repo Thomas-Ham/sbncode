@@ -11,7 +11,7 @@
 <project name="&name;">
     
   <!-- Project size -->
-  <numevents>10</numevents>
+  <numevents>200</numevents>
   
   <!-- Operating System -->
   <os>SL7</os>
@@ -22,7 +22,8 @@
 
   <!-- Batch resources -->
   <resource>DEDICATED,OPPORTUNISTIC,OFFSITE</resource>
-  
+  <blacklist>SU-ITS,UChicago</blacklist>
+
   <!-- Larsoft information -->
   <larsoft>
     <tag>&release;</tag>
@@ -35,29 +36,29 @@
     <fcl>/sbnd/app/users/tham/sbncode_nue_prod/srcs/sbncode/fcl/gen/genie/prodgenie_bnb_nu_osc_sbn_sbnd.fcl</fcl>
     <outdir>/pnfs/sbnd/persistent/users/tham/sbncode_nue_prod/&release;/&name;/&tag;/gen</outdir>
     <workdir>/pnfs/sbnd/persistent/users/tham/sbncode_nue_prod/&release;/work/&name;/&tag;/gen</workdir>
-    <numjobs>1</numjobs>
+    <numjobs>10000</numjobs>
     <datatier>generated</datatier>
     <initsource>/sbnd/app/users/tham/sbncode_nue_prod/srcs/sbncode/sbnutil/initsource.sh</initsource>
     <defname>&name;_&tag;_gen</defname>
-    <memory>500</memory>
+    <memory>1500</memory>
     <disk>1 GB</disk>
     <schema>root</schema>
-    <jobsub>--expected-lifetime=1h</jobsub>
+    <jobsub>--expected-lifetime=48h</jobsub>
   </stage>
 
   <stage name="g4">
     <fcl>/sbnd/app/users/tham/sbncode_nue_prod/srcs/sbncode/fcl/g4/standard_g4_sbn_sbnd.fcl</fcl>
-    <outdir>/pnfs/sbnd/persistent/users/tham/sbncode_nue_prod/&release;/&name;/&tag;/g4</outdir>
-    <workdir>/pnfs/sbnd/persistent/users/tham/sbncode_nue_prod/&release;/work/&name;/&tag;/g4</workdir>
-    <numjobs>1</numjobs>
+    <outdir>/pnfs/sbnd/persistent/users/tham/sbncode_nue_prod/&release;/&name;/&tag;/g4/makeup</outdir>
+    <workdir>/pnfs/sbnd/persistent/users/tham/sbncode_nue_prod/&release;/work/&name;/&tag;/g4/makeup</workdir>
+    <numjobs>2</numjobs>
     <datatier>simulated</datatier>
     <initsource>/sbnd/app/users/tham/sbncode_nue_prod/srcs/sbncode/sbnutil/initsource.sh</initsource>
     <defname>&name;_&tag;_g4</defname>
-    <inputlist>/sbnd/data/users/tham/sbncode_nue_prod/lists/nu_osc_sbnd_gen.list</inputlist> 
+    <inputlist>/sbnd/app/users/tham/sbncode_nue_prod/srcs/sbncode/data/lists/nu_osc_gen_sbnd_makeup.list</inputlist> 
     <memory>1000</memory>
     <disk>1 GB</disk>
     <schema>root</schema>-->
-    <jobsub>--expected-lifetime=1h</jobsub>
+    <jobsub>--expected-lifetime=30m</jobsub>
   </stage>
   
   
