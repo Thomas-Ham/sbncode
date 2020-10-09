@@ -1,18 +1,19 @@
-detector=sbnd
+detector=uboone
 name=nu_osc
-stage=gen
-stage2=g4
+stage=eventweightA
+stage2=eventweightB
 
 path=/pnfs/sbnd/persistent/users/tham/sbncode_nue_prod/v08_57_00/$name/$detector/$stage2
 
 echo "Looking in $path..."
-echo -n "Number of directories found: "; find $path/* -maxdepth 0 -type d | wc -l
+#echo -n "Number of directories found: "; find $path/* -maxdepth 0 -type d | wc -l
 echo ""
 echo -n "Number of files found: "; find $path/*/prod*.root -maxdepth 0 -type f | wc -l
+#find $path/*/prod*.root -maxdepth 0 -type f | echo -n  $path/*/prod*.root
 
 # The file we will write all the failed jobs too
 #file_write=failed_directories_nue_int_sbnd_g4.txt
-file_write=failed_${name}_${stage}_${detector}.list
+file_write=${name}_${stage}_${detector}_makeup.list
 # if it already exists, lets remove it 
 if test -f $file_write; then
     rm $file_write    
@@ -21,6 +22,7 @@ fi
 
 find_empty_directories() {
     echo "Looking for jod directories that don't contain a file and writing these to $file_write..."
+    counter=0
     for dir in $path/*/    # list directories in the form "/tmp/dirname/"
     do                     # loop over the directories
         dir=${dir%*/}      # remove the trailing "/"
@@ -33,7 +35,8 @@ find_empty_directories() {
                 continue
             else 
                 #echo "root file does not exist."
-                #echo ${dir##*_}
+                counter=$((counter+1))
+                echo ${dir##*_}
                 #echo $dir >> $file_write # write all the directories that don't contain the above file to this txt file
                 NUM=$((${dir##*_} + 1)) # Get the last bit of the directory name (the bit after the '_') and add 1 to it
                 sed "${NUM}q;d" /sbnd/app/users/tham/sbncode_nue_prod/srcs/sbncode/data/lists/${name}_${stage}_${detector}.list >> $file_write  
@@ -41,16 +44,19 @@ find_empty_directories() {
             fi
         done
     done
+    echo "Found $counter directories which don't contain a file."
 }
 
 find_missing_directories() {
     echo "Looking for directories which were not created and writing the corresponding missing files to $file_write..."
-    for i in {0..9999} # Loop over the directories (directory numbering starts at 0)
+    counter=0
+    for i in {0..9991} # Loop over the directories (directory numbering starts at 0)
     do
         dir=($path/*_$i/)
         #echo ${dir[@]}
         # Find the directories which are missing 
         if [ ! -d ${dir[@]} ]; then 
+           counter=$((counter+1))  
            # echo ${dir[@]}
            # echo ${dir[@]} >> $file_write
            
@@ -60,6 +66,7 @@ find_missing_directories() {
            sed "${NUM}q;d" /sbnd/app/users/tham/sbncode_nue_prod/srcs/sbncode/data/lists/${name}_${stage}_${detector}.list >> $file_write
         fi
     done
+    echo "Found $counter directories which don't exist."
 }
 
 

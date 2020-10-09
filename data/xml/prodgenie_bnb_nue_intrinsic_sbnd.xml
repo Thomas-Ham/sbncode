@@ -11,7 +11,7 @@
 <project name="&name;">
     
   <!-- Project size -->
-  <numevents>2300</numevents>
+  <numevents>300</numevents>
   
   <!-- Operating System -->
   <os>SL7</os>
@@ -28,14 +28,15 @@
   <larsoft>
     <tag>&release;</tag>
     <qual>e19:prof</qual>
-    <local>/pnfs/sbnd/resilient/users/tham/sbncode_nue_prod/tarfiles/sbncode_v08_57_00.tar</local>
+    <!--<local>/pnfs/sbnd/resilient/users/tham/sbncode_nue_prod/tarfiles/sbncode_v08_57_00.tar</local>-->
+    <local>/pnfs/sbnd/resilient/users/tham/sbncode_nue_prod/tarfiles/sbncode_larsim_v08_57_00.tar</local>
   </larsoft>
   
-  <!-- Project stages -->
-  <stage name="gen">
+  <!-- Project stages -->  
+  <?comment <stage name="gen">
     <fcl>/sbnd/app/users/tham/sbncode_nue_prod/srcs/sbncode/fcl/gen/genie/prodgenie_bnb_intrinsic_nue_sbn_sbnd.fcl</fcl>
-    <outdir>/pnfs/sbnd/persistent/users/tham/sbncode_nue_prod/&release;/&name;/&tag;/gen</outdir>
-    <workdir>/pnfs/sbnd/persistent/users/tham/sbncode_nue_prod/&release;/work/&name;/&tag;/gen</workdir>
+    <outdir>/pnfs/sbnd/persistent/users/tham/sbncode_nue_prod/&release;/&name;/&tag;/gen_test</outdir>
+    <workdir>/pnfs/sbnd/persistent/users/tham/sbncode_nue_prod/&release;/work/&name;/&tag;/gen_test</workdir>
     <numjobs>10000</numjobs>
     <datatier>generated</datatier>
     <initsource>/sbnd/app/users/tham/sbncode_nue_prod/srcs/sbncode/sbnutil/initsource.sh</initsource>
@@ -45,7 +46,22 @@
     <schema>root</schema>
     <jobsub>--expected-lifetime=3d</jobsub>
   </stage>
-
+  ?>
+  <stage name="gen_g4">
+    <fcl>/sbnd/app/users/tham/sbncode_nue_prod/srcs/sbncode/fcl/gen/genie/prodgenie_bnb_intrinsic_nue_sbn_sbnd.fcl</fcl>-->
+    <fcl>/sbnd/app/users/tham/sbncode_nue_prod/srcs/sbncode/fcl/g4/standard_g4_sbn_sbnd.fcl</fcl>
+    <outdir>/pnfs/sbnd/persistent/users/tham/sbncode_nue_prod/&release;/&name;/&tag;/gen_g4_test</outdir>
+    <workdir>/pnfs/sbnd/persistent/users/tham/sbncode_nue_prod/&release;/work/&name;/&tag;/gen_g4_test</workdir>
+    <numjobs>2</numjobs>
+    <datatier>generated</datatier>
+    <initsource>/sbnd/app/users/tham/sbncode_nue_prod/srcs/sbncode/sbnutil/initsource.sh</initsource>
+    <defname>&name;_&tag;_gen_g4</defname>
+    <memory>1500</memory>
+    <disk>10 GB</disk>
+    <schema>root</schema>-->
+    <jobsub>--expected-lifetime=1h</jobsub>
+  </stage>
+ 
   <stage name="g4">
     <fcl>/sbnd/app/users/tham/sbncode_nue_prod/srcs/sbncode/fcl/g4/standard_g4_sbn_sbnd.fcl</fcl>
     <outdir>/pnfs/sbnd/persistent/users/tham/sbncode_nue_prod/&release;/&name;/&tag;/g4/makeup</outdir>
@@ -60,8 +76,38 @@
     <schema>root</schema>-->
     <jobsub>--expected-lifetime=1h</jobsub>
   </stage>
-  
-  
+
+  <stage name="eventweightA">
+    <fcl>/sbnd/app/users/tham/sbncode_nue_prod/srcs/sbncode/fcl/eventweight/run_eventweight_sbnA.fcl</fcl>
+    <outdir>/pnfs/sbnd/persistent/users/tham/sbncode_nue_prod/&release;/&name;/&tag;/eventweightA/makeup</outdir>
+    <workdir>/pnfs/sbnd/persistent/users/tham/sbncode_nue_prod/&release;/work/&name;/&tag;/eventweightA/makeup</workdir>
+    <numjobs>42</numjobs>
+    <datatier>simulated</datatier>
+    <initsource>/sbnd/app/users/tham/sbncode_nue_prod/srcs/sbncode/sbnutil/initsource.sh</initsource>
+    <defname>&name;_&tag;_evenweightA</defname>
+    <inputlist>/sbnd/app/users/tham/sbncode_nue_prod/srcs/sbncode/data/lists/intrinsic_nue_g4_sbnd_makeup.list</inputlist> 
+    <memory>2000</memory>
+    <disk>10 GB</disk>
+    <schema>root</schema>-->
+    <jobsub>--expected-lifetime=2h</jobsub>
+  </stage>
+
+  <stage name="eventweightB">
+    <fcl>/sbnd/app/users/tham/sbncode_nue_prod/srcs/sbncode/fcl/eventweight/run_eventweight_sbnB.fcl</fcl>
+    <outdir>/pnfs/sbnd/persistent/users/tham/sbncode_nue_prod/&release;/&name;/&tag;/eventweightB/makeup2</outdir>
+    <workdir>/pnfs/sbnd/persistent/users/tham/sbncode_nue_prod/&release;/work/&name;/&tag;/eventweightB/makeup2</workdir>
+    <numjobs>3</numjobs>
+    <datatier>simulated</datatier>
+    <initsource>/sbnd/app/users/tham/sbncode_nue_prod/srcs/sbncode/sbnutil/initsource.sh</initsource>
+    <defname>&name;_&tag;_eventweightB</defname>
+    <inputlist>/sbnd/app/users/tham/sbncode_nue_prod/srcs/sbncode/data/lists/intrinsic_nue_eventweightA_sbnd_makeup2.list</inputlist> 
+    <memory>8000</memory>
+    <disk>10 GB</disk>
+    <schema>root</schema>-->
+    <jobsub>--expected-lifetime=2h</jobsub>
+  </stage>
+
+
   <filetype>&file_type;</filetype>
   
   <!-- run type -->

@@ -1,6 +1,6 @@
-detector=sbnd
-stage=g4
-name=intrinsic_nue
+detector=icarus
+stage=eventweightA
+name=nu_osc
 
 path=/pnfs/sbnd/persistent/users/tham/sbncode_nue_prod/v08_57_00/$name/$detector/$stage
 
