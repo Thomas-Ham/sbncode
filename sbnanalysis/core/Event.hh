@@ -14,22 +14,14 @@
 #include <map>
 #include <string>
 #include <vector>
-//#include <TTree.h>
-
-#ifdef GEN_FLATRECORD_CONTEXT
-namespace event{
-  struct TVector3{TVector3(){}TVector3(double,double,double){}float x; float y; float z;};
-  struct Pair{std::string first; std::vector<float> second;};
-}
-#else
+#include <TTree.h>
 #include <TVector3.h>
-#endif
-
 #include "Experiment.hh"
 
 namespace event {
 
 static const int kUnfilled = -99999;  //!< Value for unfilled variables
+
 
 /**
  * \class Metadata
@@ -50,7 +42,6 @@ public:
   int run;      //!< Run ID
   int subrun;   //!< Subrun ID
   int eventID;  //!< Event ID
-  int fileEntry; //!< Index of of file
 };
 
 
@@ -62,7 +53,7 @@ class Neutrino {
 public:
   /** Constructor. */
   Neutrino()
-    : isnc(false), iscc(false), initpdg(0), pdg(0), targetPDG(0),
+    : isnc(false), iscc(false), pdg(0), initpdg(0), targetPDG(0),
       genie_intcode(0), bjorkenX(kUnfilled), inelasticityY(kUnfilled),
       Q2(kUnfilled), q0(kUnfilled),
       modq(kUnfilled), q0_lab(kUnfilled), modq_lab(kUnfilled),
@@ -154,17 +145,15 @@ public:
   std::vector<FinalStateParticle> finalstate; //!< Other final state particles
   size_t nfinalstate;  //!< Size of finalstate
 
+
+
   /**
    * Event weights.
    *
    * This is a map from the weight calculator name to the list of weights
    * for all the sampled universes.
    */
-#ifndef GEN_FLATRECORD_CONTEXT
-    std::map<std::string, std::vector<float> > weights;
-#else
-    std::vector<Pair> weights;
-#endif
+  std::map<std::string, std::vector<float> > weights;
 
   size_t index;  //!< Index in the MCTruth
 };
@@ -179,11 +168,11 @@ class RecoInteraction {
 public:
   /** Default Constructor */
   RecoInteraction()
-      : truth_index(-1), reco_energy(kUnfilled), weight(1) {}
+    : truth_index(-1), reco_energy(kUnfilled), weight(1), wasCosmic(false), wasDirt(false) {}
 
   /** Fill in truth information -- other fields set as in default */
-  explicit RecoInteraction(int tindex)
-      : truth_index(tindex), reco_energy(kUnfilled), weight(1) {}
+  explicit RecoInteraction(int index)
+      : truth_index(index), reco_energy(kUnfilled), weight(1) {}
 
   /**
    * Index into the vector of truth interaction objects in the Event
@@ -195,6 +184,10 @@ public:
   float reco_energy;  //!< Reconstructed neutrino energy [GeV]
   float weight;  //!< Selection-defined event weight
   size_t index;  //!< Index in the reco vector
+
+  bool wasCosmic;
+  bool wasDirt; 
+
 };
 
 

@@ -14,7 +14,7 @@ include_directories($ENV{LARSIM_INC})
 # source files.
 add_library(sbnanalysis_SBNOsc_Utilities SHARED Utilities.cxx)
 add_library(sbnanalysis_SBNOsc_NueSelection SHARED NueSelection.cxx)
-add_library(sbnanalysis_SBNOsc_NumuSelection SHARED NumuSelection.cxx)
+#add_library(sbnanalysis_SBNOsc_NumuSelection SHARED NumuSelection.cxx)
 add_library(sbnanalysis_SBNOsc_Covariance SHARED Covariance.cxx)
 add_library(sbnanalysis_SBNOsc_Chi2Sensitivity SHARED Chi2Sensitivity.cxx)
 
@@ -26,18 +26,23 @@ add_custom_command(TARGET sbnanalysis_SBNOsc_classes POST_BUILD
   libSBNOsc_dict_rdict.pcm ${CMAKE_INSTALL_PREFIX}/lib)
 
 # Define library linking
-target_link_libraries(sbnanalysis_SBNOsc_NueSelection sbnanalysis_SBNOsc_Utilities)
-target_link_libraries(sbnanalysis_SBNOsc_NumuSelection
-  sbnanalysis_SBNOsc_Utilities
-  sbnanalysis_SBNOsc_classes
-  ubana_BasicTool_GeoAlgo
+target_link_libraries(sbnanalysis_SBNOsc_NueSelection
+    sbnanalysis_SBNOsc_Utilities
+    sbnanalysis_SBNOsc_classes
+    ubana_BasicTool_GeoAlgo
 )
+
+#target_link_libraries(sbnanalysis_SBNOsc_NumuSelection
+#  sbnanalysis_SBNOsc_Utilities
+#  sbnanalysis_SBNOsc_classes
+#  ubana_BasicTool_GeoAlgo
+#)
 target_link_libraries(sbnanalysis_SBNOsc_Chi2Sensitivity sbnanalysis_SBNOsc_Covariance)
 
 # Install all libraries to the main "lib" directory
 install(TARGETS sbnanalysis_SBNOsc_Utilities DESTINATION lib)
 install(TARGETS sbnanalysis_SBNOsc_NueSelection DESTINATION lib)
-install(TARGETS sbnanalysis_SBNOsc_NumuSelection DESTINATION lib)
+#install(TARGETS sbnanalysis_SBNOsc_NumuSelection DESTINATION lib)
 install(TARGETS sbnanalysis_SBNOsc_Covariance DESTINATION lib)
 install(TARGETS sbnanalysis_SBNOsc_Chi2Sensitivity DESTINATION lib)
 
