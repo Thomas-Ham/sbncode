@@ -1,6 +1,6 @@
 #include "NueConfig.fcl"    
 
-OutputFile: "output_SBNOsc_NueSelection_Proposal_SBND.root"
+OutputFile: "output_SBNOsc_NueSelection_Modern_SBND.root"
 #MCWeightTags: ["genieeventweight" ] 
 MCWeightTags: @local::eventweight_tags
 #MCTruthTags: ["generator"]
@@ -11,7 +11,7 @@ NueSelection: {
   active_volumes: @local::SBND_Proposal_active_volumes 
   @table::standard_selection
   UniformWeights: @local::standard_UniformWeights
-  GlobalWeight: 1.21 #// Scale up all event to account for r=110m (now) -> 100m (then) 
+  #GlobalWeight: 1.21 #// Scale up all event to account for r=110m (now) -> 100m (then) 
   ApplyKMECCut: false  
   Verbose: false
   Detector: "SBND"

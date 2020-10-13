@@ -1,6 +1,6 @@
 #include "NueConfig.fcl"    
 
-OutputFile: "output_SBNOsc_NueSelection_Proposal_Icarus.root"
+OutputFile: "output_SBNOsc_NueSelection_Modern_Icarus.root"
 MCWeightTags: ["fluxeventweightA", "genieeventweightA", "genieeventweightB", "fluxeventweightB"]   
 
 NueSelection: {
