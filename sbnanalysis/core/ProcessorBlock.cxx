@@ -28,6 +28,7 @@ void ProcessorBlock::ProcessFiles(std::vector<std::string> filenames) {
   // Event loop
   for (gallery::Event ev(filenames); !ev.atEnd(); ev.next()) {
     for (auto it : fProcessors) {
+
       ProcessorBase* p = it.first;
       p->BuildEventTree(ev);
       p->SetupServices(ev);
