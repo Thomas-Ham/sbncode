@@ -10,7 +10,7 @@
 #include "services_icarus.fcl"
 #include "services_icarus_simulation.fcl"
 #include "particleinventoryservice.fcl"
-#include "photonfilter.fcl"
+#include "showerfilter.fcl"
 
 process_name: GenGenie
 
@@ -48,7 +48,7 @@ physics:
 
  filters:
      {
-        PhotonFilter:   @local::photonfilter
+        ShowerFilter:   @local::showerfilter
         }
 
 
@@ -70,7 +70,7 @@ physics:
 
  #define the producer and filter modules for this path, order matters, 
  #filters reject all following items.  see lines starting physics.producers below
- simulate: [ rns, generator, largeant, mcreco, PhotonFilter]
+ simulate: [ rns, generator, largeant, mcreco, ShowerFilter]
 
  #define the output stream, there could be more than one if using filters 
  stream1:  [ out1 ]
@@ -143,7 +143,7 @@ physics.producers.largeant.KeepEMShowerDaughters: false
 services.LArG4Parameters.EnabledPhysics:[ "Em", "SynchrotronAndGN", "Ion", "Hadron",
                                 "Decay", "HadronElastic", "Stopping"
                                           ]
-physics.filters.PhotonFilter.ActiveVolume: [
+physics.filters.ShowerFilter.ActiveVolume: [
     {
       xmin: -364.49
       ymin: -173.41
