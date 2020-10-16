@@ -1,6 +1,6 @@
 #include "NueConfig.fcl"    
 
-OutputFile: "output_SBNOsc_NueSelection_Proposal_Uboone.root"
+OutputFile: "output_SBNOsc_NueSelection_Modern_Uboone.root"
 MCWeightTags: ["fluxeventweightA", "genieeventweightA", "genieeventweightB", "fluxeventweightB"]   
 #MCWeightTags: ["genieeventweight" ] 
 
