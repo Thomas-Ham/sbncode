@@ -115,7 +115,7 @@ bool shower::showerfilter::filter(art::Event & evt)
     const simb::MCParticle* particle = particle_pair.second;
 
     //Only keep showers
-    if(particle->PdgCode() != 22 || 11 || -11){continue;}
+    if(particle->PdgCode() != 22 && particle->PdgCode() != 11 && particle->PdgCode() != -11){continue;}
 
     //Is it above 10 MeV. Remove any delta rays.
     if(particle->E()*1000 < 10){continue;}
