@@ -120,7 +120,7 @@ services.message.destinations :
   }
 }
 
-outputs.out1.fileName: "prodgenie_bnb_nu_sbn_icarus_%tc_gen.root"
+outputs.out1.fileName: "prodgenie_bnb_dirt_sbn_icarus_%tc_gen.root"
 
 services.IFDH: {}
 physics.producers.generator.FluxCopyMethod: "IFDH"
@@ -129,7 +129,7 @@ physics.producers.generator.TopVolume: "volWorld"
 physics.producers.generator.BeamName: "booster"
 physics.producers.generator.FluxSearchPaths: "/pnfs/sbn/persistent/users/mastbaum/flux/icarus/zarko-expires20171031/"
 physics.producers.generator.FluxFiles: [ "converted_beammc_icarus_*.root" ]
-physics.producers.generator.EventGeneratorList: "Default+CCMEC+NCMEC"
+physics.producers.generator.EventGeneratorList: @erase
 
 physics.producers.rns: {
     module_type: "RandomNumberSaver"

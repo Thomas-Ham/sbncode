@@ -118,7 +118,7 @@ outputs:
 physics.producers.largeant.KeepParticlesInVolumes: ["volCryostat", "volTaggerTopHigh", "volTaggerTopLow", "volTaggerSideLeft", "volTaggerSideRight", "volTaggerFaceFront", "volTaggerFaceBack", "volTaggerBot"] 
 
 
-outputs.out1.fileName: "prodgenie_bnb_nu_osc_dirt_sbn_sbnd_%tc_gen.root"
+outputs.out1.fileName: "prodgenie_bnb_dirt_sbn_sbnd_%tc_gen.root"
 
 physics.producers.generator: {
      @table::physics.producers.generator
@@ -133,7 +133,7 @@ services.IFDH: {}
 physics.producers.generator.FluxCopyMethod: "IFDH"
 physics.producers.generator.EventsPerSpill: 0
 physics.producers.generator.BeamName: "booster"
-physics.producers.generator.EventGeneratorList: "Default+CCMEC+NCMEC"
+physics.producers.generator.EventGeneratorList: @erase
 physics.producers.generator.FluxType:       "simple_flux"
 
 

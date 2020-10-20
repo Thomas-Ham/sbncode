@@ -57,7 +57,7 @@ physics:
         rns:       { module_type: "RandomNumberSaver" }
         }
 
- fpath: [ShowerFilter]
+ fpath: [PhotnFilter]
 
   #define the producer and filter modules for this path, order matters, 
  #filters reject all following items.  see lines starting physics.producers below
@@ -110,14 +110,14 @@ services.SpaceCharge.EnableSimSpatialSCE: false
 services.SpaceCharge.EnableSimEfieldSCE: false
 services.DetectorClocksService.InheritClockConfig: false
 
-outputs.out1.fileName: "prodgenie_bnb_nu_dirt_sbn_osc_uboone_%tc_gen.root"
+outputs.out1.fileName: "prodgenie_bnb_dirt_sbn_uboone_%tc_gen.root"
 
 services.IFDH: {}
 physics.producers.generator: @local::microboone_genie_simple
 physics.producers.generator.FluxCopyMethod: "IFDH"
 physics.producers.generator.EventsPerSpill: 0
 physics.producers.generator.BeamName: "booster"
-physics.producers.generator.EventGeneratorList: "Default+CCMEC+NCMEC"
+physics.producers.generator.EventGeneratorList: @erase
 physics.producers.generator.FluxSearchPaths: "/pnfs/sbn/persistent/users/gputnam/flux/uboone/bnb_gsimple_fluxes_02.05.2018_463/"
 
 physics.producers.generator.GlobalTimeOffset: 3125.
