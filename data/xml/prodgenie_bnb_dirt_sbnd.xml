@@ -4,14 +4,14 @@
   <!ENTITY release "v08_57_00">
   <!ENTITY file_type "mc">
   <!ENTITY run_type "physics">
-  <!ENTITY name "nu_osc">
-  <!ENTITY tag "icarus">
+  <!ENTITY name "dirt">
+  <!ENTITY tag "sbnd">
 ]>
 
 <project name="&name;">
     
   <!-- Project size -->
-  <numevents>999100</numevents>
+  <numevents>10000000</numevents>
   
   <!-- Operating System -->
   <os>SL7</os>
@@ -28,86 +28,74 @@
   <larsoft>
     <tag>&release;</tag>
     <qual>e19:prof</qual>
+    <!--<local>/pnfs/sbnd/resilient/users/tham/sbncode_nue_prod/tarfiles/sbncode_v08_57_00.tar</local>-->
     <!--<local>/pnfs/sbnd/resilient/users/tham/sbncode_nue_prod/tarfiles/sbncode_larsim_v08_57_00.tar</local>-->
     <local>/pnfs/sbnd/resilient/users/tham/sbncode_nue_prod/tarfiles/sbncode_sbnanalysis_v08_57_00.tar</local>
   </larsoft>
   
-  <!-- Project stages -->
-  <stage name="gen">
-    <fcl>/sbnd/app/users/tham/sbncode_nue_prod/srcs/sbncode/fcl/gen/genie/prodgenie_bnb_nu_osc_sbn_icarus.fcl</fcl>
-    <outdir>/pnfs/sbnd/persistent/users/tham/sbncode_nue_prod/&release;/&name;/&tag;/gen/makeup</outdir>
-    <workdir>/pnfs/sbnd/persistent/users/tham/sbncode_nue_prod/&release;/work/&name;/&tag;/gen/makeup</workdir>
-    <numjobs>6</numjobs>
-    <datatier>generated</datatier>
+  <!-- Project stages -->  
+  <stage name="gen_g4">
+    <fcl>/sbnd/app/users/tham/sbncode_nue_prod/srcs/sbncode/fcl/dirt/prodgenie_bnb_nu_dirt_sbn_sbnd_comb.fcl</fcl>
+    <fcl>/sbnd/app/users/tham/sbncode_nue_prod/srcs/sbncode/fcl/g4/standard_g4_sbn_sbnd.fcl</fcl>
+    <outdir>/pnfs/sbnd/persistent/users/tham/sbncode_nue_prod/&release;/&name;/&tag;/gen_g4/makeup2</outdir>
+    <workdir>/pnfs/sbnd/persistent/users/tham/sbncode_nue_prod/&release;/work/&name;/&tag;/gen_g4/makeup2</workdir>
+    <numjobs>1</numjobs>
+    <datatier>generation</datatier>
     <initsource>/sbnd/app/users/tham/sbncode_nue_prod/srcs/sbncode/sbnutil/initsource.sh</initsource>
     <defname>&name;_&tag;_gen</defname>
-    <memory>1500</memory>
-    <disk>1 GB</disk>
-    <schema>root</schema>
-    <jobsub>--expected-lifetime=20m</jobsub>
-  </stage>
-
-  <stage name="g4">
-    <fcl>/sbnd/app/users/tham/sbncode_nue_prod/srcs/sbncode/fcl/g4/standard_g4_sbn_icarus.fcl</fcl>
-    <outdir>/pnfs/sbnd/persistent/users/tham/sbncode_nue_prod/&release;/&name;/&tag;/g4/makeup</outdir>
-    <workdir>/pnfs/sbnd/persistent/users/tham/sbncode_nue_prod/&release;/work/&name;/&tag;/g4/makeup</workdir>
-    <numjobs>301</numjobs>
-    <datatier>simulated</datatier>
-    <initsource>/sbnd/app/users/tham/sbncode_nue_prod/srcs/sbncode/sbnutil/initsource.sh</initsource>
-    <defname>&name;_&tag;_g4</defname>
-    <inputlist>/sbnd/app/users/tham/sbncode_nue_prod/srcs/sbncode/data/lists/nu_osc_gen_icarus_makeup.list</inputlist> 
-    <memory>1000</memory>
-    <disk>5 GB</disk>
-    <schema>root</schema>-->
-    <jobsub>--expected-lifetime=2h</jobsub>
-  </stage>
-  
-  <stage name="eventweightA">
-    <fcl>/sbnd/app/users/tham/sbncode_nue_prod/srcs/sbncode/fcl/eventweight/run_eventweight_sbnA.fcl</fcl>
-    <outdir>/pnfs/sbnd/persistent/users/tham/sbncode_nue_prod/&release;/&name;/&tag;/eventweightA/makeup</outdir>
-    <workdir>/pnfs/sbnd/persistent/users/tham/sbncode_nue_prod/&release;/work/&name;/&tag;/eventweightA/makeup</workdir>
-    <numjobs>12</numjobs>
-    <datatier>simulated</datatier>
-    <initsource>/sbnd/app/users/tham/sbncode_nue_prod/srcs/sbncode/sbnutil/initsource.sh</initsource>
-    <defname>&name;_&tag;_evenweightA</defname>
-    <inputlist>/sbnd/app/users/tham/sbncode_nue_prod/srcs/sbncode/data/lists/nu_osc_g4_icarus_makeup.list</inputlist> 
     <memory>2000</memory>
     <disk>10 GB</disk>
     <schema>root</schema>-->
-    <jobsub>--expected-lifetime=2h</jobsub>
+    <jobsub>--expected-lifetime=12h</jobsub>
+  </stage>
+
+  <stage name="eventweightA">
+    <fcl>/sbnd/app/users/tham/sbncode_nue_prod/srcs/sbncode/fcl/eventweight/run_eventweight_sbnA.fcl</fcl>
+    <outdir>/pnfs/sbnd/persistent/users/tham/sbncode_nue_prod/&release;/&name;/&tag;/eventweightA</outdir>
+    <workdir>/pnfs/sbnd/persistent/users/tham/sbncode_nue_prod/&release;/work/&name;/&tag;/eventweightA</workdir>
+    <numjobs>1000</numjobs>
+    <datatier>simulated</datatier>
+    <initsource>/sbnd/app/users/tham/sbncode_nue_prod/srcs/sbncode/sbnutil/initsource.sh</initsource>
+    <defname>&name;_&tag;_evenweightA</defname>
+    <inputlist>/sbnd/app/users/tham/sbncode_nue_prod/srcs/sbncode/data/lists/dirt_gen_g4_sbnd.list</inputlist> 
+    <memory>2000</memory>
+    <disk>10 GB</disk>
+    <schema>root</schema>-->
+    <jobsub>--expected-lifetime=24h</jobsub>
   </stage>
 
   <stage name="eventweightB">
     <fcl>/sbnd/app/users/tham/sbncode_nue_prod/srcs/sbncode/fcl/eventweight/run_eventweight_sbnB.fcl</fcl>
     <outdir>/pnfs/sbnd/persistent/users/tham/sbncode_nue_prod/&release;/&name;/&tag;/eventweightB/makeup</outdir>
     <workdir>/pnfs/sbnd/persistent/users/tham/sbncode_nue_prod/&release;/work/&name;/&tag;/eventweightB/makeup</workdir>
-    <numjobs>14</numjobs>
+    <numjobs>13</numjobs>
     <datatier>simulated</datatier>
     <initsource>/sbnd/app/users/tham/sbncode_nue_prod/srcs/sbncode/sbnutil/initsource.sh</initsource>
     <defname>&name;_&tag;_eventweightB</defname>
-    <inputlist>/sbnd/app/users/tham/sbncode_nue_prod/srcs/sbncode/data/lists/nu_osc_eventweightA_icarus_makeup.list</inputlist> 
+    <inputlist>/sbnd/app/users/tham/sbncode_nue_prod/srcs/sbncode/data/lists/dirt_eventweightA_sbnd_makeup.list</inputlist> 
     <memory>8000</memory>
-    <disk>10 GB</disk>
+    <disk>20 GB</disk>
     <schema>root</schema>-->
-    <jobsub>--expected-lifetime=6h</jobsub>
+    <jobsub>--expected-lifetime=12h</jobsub>
   </stage>
- 
+
   <stage name="selection">
-    <fcl>/sbnd/app/users/tham/sbncode_nue_prod/srcs/sbncode/sbnanalysis/ana/SBNOsc/config/NueConfigModernIcarus_Osc.fcl</fcl>
+    <fcl>/sbnd/app/users/tham/sbncode_nue_prod/srcs/sbncode/sbnanalysis/ana/SBNOsc/config/NueConfigModernSBND_Dirt.fcl</fcl>
     <outdir>/pnfs/sbnd/persistent/users/tham/sbncode_nue_prod/&release;/&name;/&tag;/selection</outdir>
     <workdir>/pnfs/sbnd/persistent/users/tham/sbncode_nue_prod/&release;/work/&name;/&tag;/selection</workdir>
-    <numjobs>100</numjobs>
+    <numjobs>10</numjobs>
     <datatier>simulated</datatier>
     <initsource>/sbnd/app/users/tham/sbncode_nue_prod/srcs/sbncode/sbnutil/initsource.sh</initsource>
     <!-- absolutely cheat the system. Haters gonna hate  -->
     <exe>run_sbn_grid_SBNOsc_NueSelection</exe>
     <defname>&name;_&tag;_selection</defname>
-    <inputlist>/sbnd/app/users/tham/sbncode_nue_prod/srcs/sbncode/data/lists/nu_osc_eventweightB_icarus.list</inputlist> 
-    <memory>1000</memory>
-    <disk>10 GB</disk>
+    <inputlist>/sbnd/app/users/tham/sbncode_nue_prod/srcs/sbncode/data/lists/dirt_eventweightB_sbnd.list</inputlist> 
+    <memory>2000</memory>
+    <disk>20 GB</disk>
     <schema>root</schema>-->
     <jobsub>--expected-lifetime=12h</jobsub>
   </stage>
+
 
 
   <filetype>&file_type;</filetype>

@@ -11,7 +11,7 @@
 <project name="&name;">
     
   <!-- Project size -->
-  <numevents>27200</numevents>
+  <numevents>994700</numevents>
   
   <!-- Operating System -->
   <os>SL7</os>
@@ -28,7 +28,8 @@
   <larsoft>
     <tag>&release;</tag>
     <qual>e19:prof</qual>
-    <local>/pnfs/sbnd/resilient/users/tham/sbncode_nue_prod/tarfiles/sbncode_larsim_v08_57_00.tar</local>
+    <!--<local>/pnfs/sbnd/resilient/users/tham/sbncode_nue_prod/tarfiles/sbncode_larsim_v08_57_00.tar</local>-->
+    <local>/pnfs/sbnd/resilient/users/tham/sbncode_nue_prod/tarfiles/sbncode_sbnanalysis_v08_57_00.tar</local>
   </larsoft>
   
   <!-- Project stages -->
@@ -89,7 +90,25 @@
     <schema>root</schema>-->
     <jobsub>--expected-lifetime=4h</jobsub>
   </stage>
- 
+
+  <stage name="selection">
+    <fcl>/sbnd/app/users/tham/sbncode_nue_prod/srcs/sbncode/sbnanalysis/ana/SBNOsc/config/NueConfigModernIcarus_Int.fcl</fcl>
+    <outdir>/pnfs/sbnd/persistent/users/tham/sbncode_nue_prod/&release;/&name;/&tag;/selection</outdir>
+    <workdir>/pnfs/sbnd/persistent/users/tham/sbncode_nue_prod/&release;/work/&name;/&tag;/selection</workdir>
+    <numjobs>100</numjobs>
+    <datatier>simulated</datatier>
+    <initsource>/sbnd/app/users/tham/sbncode_nue_prod/srcs/sbncode/sbnutil/initsource.sh</initsource>
+    <!-- absolutely cheat the system. Haters gonna hate  -->
+    <exe>run_sbn_grid_SBNOsc_NueSelection</exe>
+    <defname>&name;_&tag;_selection</defname>
+    <inputlist>/sbnd/app/users/tham/sbncode_nue_prod/srcs/sbncode/data/lists/intrinsic_nue_eventweightB_icarus.list</inputlist> 
+    <memory>1000</memory>
+    <disk>10 GB</disk>
+    <schema>root</schema>-->
+    <jobsub>--expected-lifetime=3h</jobsub>
+  </stage>
+
+
   
   <filetype>&file_type;</filetype>
   

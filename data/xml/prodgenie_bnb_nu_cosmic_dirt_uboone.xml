@@ -1,0 +1,108 @@
+<?xml version="1.0"?>
+  <!-- Production Project -->
+  <!DOCTYPE project [
+  <!ENTITY release "v08_57_00">
+  <!ENTITY file_type "mc">
+  <!ENTITY run_type "physics">
+  <!ENTITY name "nu_cosmic_dirt">
+  <!ENTITY tag "uboone">
+]>
+
+<project name="&name;">
+    
+  <!-- Project size -->
+  <numevents>1000000</numevents>
+  
+  <!-- Operating System -->
+  <os>SL7</os>
+
+  <role>Analysis</role>  
+  <group>sbnd</group>
+
+
+  <!-- Batch resources -->
+  <resource>DEDICATED,OPPORTUNISTIC,OFFSITE</resource>
+  <blacklist>SU-ITS,UChicago</blacklist>
+  
+  <!-- Larsoft information -->
+  <larsoft>
+    <tag>&release;</tag>
+    <qual>e19:prof</qual>
+    <!--<local>/pnfs/sbnd/resilient/users/tham/sbncode_nue_prod/tarfiles/sbncode_v08_57_00.tar</local>-->
+    <!--<local>/pnfs/sbnd/resilient/users/tham/sbncode_nue_prod/tarfiles/sbncode_larsim_v08_57_00.tar</local>-->
+    <local>/pnfs/sbnd/resilient/users/tham/sbncode_nue_prod/tarfiles/sbncode_sbnanalysis_v08_57_00.tar</local>
+  </larsoft>
+  
+  <!-- Project stages -->  
+  <stage name="gen_g4">
+    <fcl>/sbnd/app/users/tham/sbncode_nue_prod/srcs/sbncode/fcl/gen/genie/prodgenie_bnb_nu_cosmic_dirt_sbn_uboone.fcl</fcl>
+    <fcl>/sbnd/app/users/tham/sbncode_nue_prod/srcs/sbncode/fcl/g4/standard_g4_sbn_uboone.fcl</fcl>
+    <outdir>/pnfs/sbnd/scratch/users/tham/sbncode_nue_prod/&release;/&name;/&tag;/gen_g4/makeup</outdir>
+    <workdir>/pnfs/sbnd/scratch/users/tham/sbncode_nue_prod/&release;/work/&name;/&tag;/gen_g4/makeup</workdir>
+    <numjobs>4</numjobs>
+    <datatier>generation</datatier>
+    <initsource>/sbnd/app/users/tham/sbncode_nue_prod/srcs/sbncode/sbnutil/initsource.sh</initsource>
+    <defname>&name;_&tag;_gen</defname>
+    <memory>8000</memory>
+    <disk>20 GB</disk>
+    <schema>root</schema>-->
+    <jobsub>--expected-lifetime=8h</jobsub>
+  </stage>
+
+  <stage name="eventweightA">
+    <fcl>/sbnd/app/users/tham/sbncode_nue_prod/srcs/sbncode/fcl/eventweight/run_eventweight_sbnA.fcl</fcl>
+    <outdir>/pnfs/sbnd/scratch/users/tham/sbncode_nue_prod/&release;/&name;/&tag;/eventweightA</outdir>
+    <workdir>/pnfs/sbnd/scratch/users/tham/sbncode_nue_prod/&release;/work/&name;/&tag;/eventweightA</workdir>
+    <numjobs>1000</numjobs>
+    <datatier>simulated</datatier>
+    <initsource>/sbnd/app/users/tham/sbncode_nue_prod/srcs/sbncode/sbnutil/initsource.sh</initsource>
+    <defname>&name;_&tag;_evenweightA</defname>
+    <inputlist>/sbnd/app/users/tham/sbncode_nue_prod/srcs/sbncode/data/lists/nu_cosmic_dirt_gen_g4_uboone.list</inputlist> 
+    <memory>6000</memory>
+    <disk>20 GB</disk>
+    <schema>root</schema>-->
+    <jobsub>--expected-lifetime=24h</jobsub>
+  </stage>
+
+  <stage name="eventweightB">
+    <fcl>/sbnd/app/users/tham/sbncode_nue_prod/srcs/sbncode/fcl/eventweight/run_eventweight_sbnB.fcl</fcl>
+    <outdir>/pnfs/sbnd/scratch/users/tham/sbncode_nue_prod/&release;/&name;/&tag;/eventweightB</outdir>
+    <workdir>/pnfs/sbnd/scratch/users/tham/sbncode_nue_prod/&release;/work/&name;/&tag;/eventweightB</workdir>
+    <numjobs>999</numjobs>
+    <datatier>simulated</datatier>
+    <initsource>/sbnd/app/users/tham/sbncode_nue_prod/srcs/sbncode/sbnutil/initsource.sh</initsource>
+    <defname>&name;_&tag;_evenweightA</defname>
+    <inputlist>/sbnd/app/users/tham/sbncode_nue_prod/srcs/sbncode/data/lists/nu_cosmic_dirt_eventweightA_uboone.list</inputlist> 
+    <memory>8000</memory>
+    <disk>20 GB</disk>
+    <schema>root</schema>-->
+    <jobsub>--expected-lifetime=24h</jobsub>
+  </stage>
+
+  <stage name="selection">
+    <fcl>/sbnd/app/users/tham/sbncode_nue_prod/srcs/sbncode/sbnanalysis/ana/SBNOsc/config/NueConfigModernUboone_CosDirt.fcl</fcl>
+    <outdir>/pnfs/sbnd/persistent/users/tham/sbncode_nue_prod/&release;/&name;/&tag;/selection</outdir>
+    <workdir>/pnfs/sbnd/persistent/users/tham/sbncode_nue_prod/&release;/work/&name;/&tag;/selection</workdir>
+    <numjobs>10</numjobs>
+    <datatier>simulated</datatier>
+    <initsource>/sbnd/app/users/tham/sbncode_nue_prod/srcs/sbncode/sbnutil/initsource.sh</initsource>
+    <!-- absolutely cheat the system. Haters gonna hate  -->
+    <exe>run_sbn_grid_SBNOsc_NueSelection</exe>
+    <defname>&name;_&tag;_selection</defname>
+    <inputlist>/sbnd/app/users/tham/sbncode_nue_prod/srcs/sbncode/data/lists/nu_cosmic_dirt_eventweightB_uboone.list</inputlist> 
+    <memory>2000</memory>
+    <disk>20 GB</disk>
+    <schema>root</schema>-->
+    <jobsub>--expected-lifetime=8h</jobsub>
+  </stage>
+
+
+
+
+  <filetype>&file_type;</filetype>
+  
+  <!-- run type -->
+  <runtype>&run_type;</runtype>
+  
+</project>
+
