@@ -158,7 +158,6 @@ protected:
 
   void SetupServices(gallery::Event& ev);
 
-
   /**
    * Update subrun list to include subruns for this event's file.
    *
@@ -189,9 +188,6 @@ protected:
   art::InputTag fMCTrackTag; //!< art tag for MCTrack
   art::InputTag fMCShowerTag; //!< art tag for MCShower
   art::InputTag fMCParticleTag; //!< art tag for MCParticle
-
-  std::string fTFileName;
-
 };
 
 }  // namespace core

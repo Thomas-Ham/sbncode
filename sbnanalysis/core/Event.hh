@@ -79,6 +79,7 @@ public:
   float t;                 //!< Kinematic t
   float eccqe;             //!< CCQE energy
   float energy;            //!< Neutrino energy (GeV)
+  int inpi;                //!< Number of intermediate state pions
   TVector3 momentum;        //!< Neutrino three-momentum
   TVector3 position;        //!< Neutrino interaction position
   int parentPDG;            //!< Parent hadron/muon PDG
@@ -131,6 +132,7 @@ public:
   float length; //!< Total length of the energy depositions [cm]
   bool is_primary; //!< Whether the process producing the particle was "primary"
   int status_code; //!< Status code returned by GENIE (see GenieStatus enum)
+  int rescatter; //!< GENIE FSI rescattering type
 };
 
 
@@ -144,8 +146,6 @@ public:
   FinalStateParticle lepton;  //!< The primary final state lepton
   std::vector<FinalStateParticle> finalstate; //!< Other final state particles
   size_t nfinalstate;  //!< Size of finalstate
-
-
 
   /**
    * Event weights.
@@ -168,7 +168,7 @@ class RecoInteraction {
 public:
   /** Default Constructor */
   RecoInteraction()
-    : truth_index(-1), reco_energy(kUnfilled), weight(1), wasCosmic(false), wasDirt(false) {}
+      : truth_index(-1), reco_energy(kUnfilled), weight(1), wasCosmic(false), wasDirt(false) {}
 
   /** Fill in truth information -- other fields set as in default */
   explicit RecoInteraction(int index)
@@ -184,10 +184,15 @@ public:
   float reco_energy;  //!< Reconstructed neutrino energy [GeV]
   float weight;  //!< Selection-defined event weight
   size_t index;  //!< Index in the reco vector
+  float hadronic_energy; //!< Total (smeared) hadronic kinetic energy [GeV]
+  float lepton_energy; //!< (smeared) lepton kinetic energy 
+  float lepton_costh;  //!< lepton angle to beam (theta)
+  int nproton; //!< number of protons above threshold
+  int npion; //!< number of pions above threshold
+  int npi0;
 
   bool wasCosmic;
-  bool wasDirt; 
-
+  bool wasDirt;
 };
 
 
