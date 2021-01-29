@@ -1,14 +1,14 @@
-detector=uboone
-name=nu_osc
-stage=eventweightA
-stage2=eventweightB
+detector=sbnd
+name=numu
+stage=eventweightB
+stage2=selection_2.0
 
 path=/pnfs/sbnd/persistent/users/tham/sbncode_nue_prod/v08_57_00/$name/$detector/$stage2
 
 echo "Looking in $path..."
 #echo -n "Number of directories found: "; find $path/* -maxdepth 0 -type d | wc -l
 echo ""
-echo -n "Number of files found: "; find $path/*/prod*.root -maxdepth 0 -type f | wc -l
+echo -n "Number of files found: "; find $path/*/output*.root -maxdepth 0 -type f | wc -l
 #find $path/*/prod*.root -maxdepth 0 -type f | echo -n  $path/*/prod*.root
 
 # The file we will write all the failed jobs too
@@ -28,7 +28,7 @@ find_empty_directories() {
         dir=${dir%*/}      # remove the trailing "/"
         #echo ${dir##*/}    # print everything after the final "/" i.e prints directory name
 
-        for file in $path/${dir##*/}/prod*.root # file type to look for
+        for file in $path/${dir##*/}/output*.root # file type to look for
         do
             if [ -f "$file" ]; then
                 # echo "$file exists."
@@ -39,7 +39,7 @@ find_empty_directories() {
                 echo ${dir##*_}
                 #echo $dir >> $file_write # write all the directories that don't contain the above file to this txt file
                 NUM=$((${dir##*_} + 1)) # Get the last bit of the directory name (the bit after the '_') and add 1 to it
-                sed "${NUM}q;d" /sbnd/app/users/tham/sbncode_nue_prod/srcs/sbncode/data/lists/${name}_${stage}_${detector}.list >> $file_write  
+                #sed "${NUM}q;d" /sbnd/app/users/tham/sbncode_nue_prod/srcs/sbncode/data/lists/${name}_${stage}_${detector}.list >> $file_write  
                 continue
             fi
         done
@@ -72,7 +72,7 @@ find_missing_directories() {
 
 
 # functions to run
-#find_empty_directories
+find_empty_directories
 #find_missing_directories
 
 
