@@ -591,7 +591,7 @@ void CAFMaker::produce(art::Event& evt) noexcept {
 
   caf::SRTruthBranch                  srtruthbranch;
   std::vector<caf::SRTrueInteraction> srneutrinos;
-
+  std::cout << "mcparticle (true_particles branch): " << (*mc_particles).size() << std::endl;
   if (mc_particles.isValid()) {
     for (const simb::MCParticle part: *mc_particles) {
       true_particles.emplace_back();
@@ -609,7 +609,7 @@ void CAFMaker::produce(art::Event& evt) noexcept {
 
   // holder for invalid MCFlux
   simb::MCFlux badflux; // default constructor gives nonsense values
-
+  std::cout << "mctruths (mc branch): " << mctruths.size() << std::endl;
   for (size_t i=0; i<mctruths.size(); i++) {
 
     auto const& mctruth = mctruths.at(i);

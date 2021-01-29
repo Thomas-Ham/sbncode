@@ -22,6 +22,7 @@
   <class name="caf::SRTrkMCS" />
   <class name="caf::SRTrkRange" />
   <class name="caf::SRTrueParticle" />
+  <class name="caf::SRTrueParticleFSP" />
   <class name="caf::SRTruthMatch" />
   <class name="caf::SRTrueInteraction" />
   <class name="caf::SRTruthBranch" />
@@ -41,6 +42,7 @@
   <class name="std::vector<caf::SRShowerSelection>" />
   <class name="std::vector<caf::SRTrueInteraction>" />
   <class name="std::vector<caf::SRTrueParticle>" />
+  <class name="std::vector<caf::SRTrueParticleFSP>" />
   <class name="std::vector<caf::ParticleMatch>" />
 
   <class name="caf::SRCRTHit" />
