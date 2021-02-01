@@ -9,12 +9,10 @@
 namespace caf
 {
   SRTrueParticleFSP::SRTrueParticleFSP():
-    pdg(-999),
+    pdg(INT_MIN),
     energy(std::numeric_limits<float>::signaling_NaN()),
-    momentum(std::numeric_limits<float>::signaling_NaN()),
-    start(std::numeric_limits<float>::signaling_NaN()),
     status_code(kIStUndefined),
-    rescatter(-999)
+    rescatter(INT_MIN)
   {  }
 
 } // end namespace caf

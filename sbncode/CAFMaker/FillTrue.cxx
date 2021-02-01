@@ -328,15 +328,18 @@ namespace caf {
         }; 
         caf::SRTrueParticleFSP fsp;
         fsp.pdg = particle.PdgCode();
+        fsp.energy = particle.NumberTrajectoryPoints() ? particle.Momentum().E(): -9999;
+        fsp.momentum = particle.NumberTrajectoryPoints() ? particle.Momentum().Vect(): TVector3(-9999, -9999, -9999);
+        fsp.start = particle.NumberTrajectoryPoints() ? particle.Position().Vect(): TVector3(-9999, -9999, -9999);
+        fsp.end = particle.NumberTrajectoryPoints() ? particle.EndPosition().Vect(): TVector3(-9999, -9999, -9999);
         fsp.status_code = GetGenieStatusID(particle.StatusCode());
-        //fsp.rescatter = particle.Rescatter();
-        fsp.rescatter = 777;
-        std::cout << "pdg: " << fsp.pdg << std::endl;
-        std::cout << "status_code: " << fsp.status_code << std::endl;
+        fsp.rescatter = particle.Rescatter();
+        fsp.is_primary = (particle.Process() == "primary");
+       
         fsps.push_back(fsp);
-        
       }
-      srparticle.fsps = fsps;
+      srparticle.fsps  = fsps;
+      srparticle.nfsps = srparticle.fsps.size();
     }
       //---------------------------------------------------------
 

@@ -19,17 +19,18 @@ namespace caf
   class SRTrueParticleFSP
     {
     public:
-
-      SRTrueParticleFSP();
-      ~SRTrueParticleFSP(){  }
-
+      
       int pdg;
       float energy;
-      float momentum;
-      float start; 
+      SRVector3D momentum;
+      SRVector3D start; 
+      SRVector3D end; 
       genie_status_ status_code;
       int rescatter;
       bool is_primary;
+        
+      SRTrueParticleFSP();
+      ~SRTrueParticleFSP(){  }
 
     };
 
