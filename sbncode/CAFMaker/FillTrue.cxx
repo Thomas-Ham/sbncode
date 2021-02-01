@@ -332,7 +332,7 @@ namespace caf {
         fsp.momentum = particle.NumberTrajectoryPoints() ? particle.Momentum().Vect(): TVector3(-9999, -9999, -9999);
         fsp.start = particle.NumberTrajectoryPoints() ? particle.Position().Vect(): TVector3(-9999, -9999, -9999);
         fsp.end = particle.NumberTrajectoryPoints() ? particle.EndPosition().Vect(): TVector3(-9999, -9999, -9999);
-        fsp.status_code = GetGenieStatusID(particle.StatusCode());
+        fsp.gstatus = GetGenieStatusID(particle.StatusCode());
         fsp.rescatter = particle.Rescatter();
         fsp.is_primary = (particle.Process() == "primary");
        

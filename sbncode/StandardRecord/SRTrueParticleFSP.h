@@ -25,7 +25,7 @@ namespace caf
       SRVector3D momentum;
       SRVector3D start; 
       SRVector3D end; 
-      genie_status_ status_code;
+      genie_status_ gstatus;
       int rescatter;
       bool is_primary;
         

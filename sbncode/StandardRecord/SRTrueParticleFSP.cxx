@@ -11,7 +11,7 @@ namespace caf
   SRTrueParticleFSP::SRTrueParticleFSP():
     pdg(INT_MIN),
     energy(std::numeric_limits<float>::signaling_NaN()),
-    status_code(kIStUndefined),
+    gstatus(kIStUndefined),
     rescatter(INT_MIN)
   {  }
 
